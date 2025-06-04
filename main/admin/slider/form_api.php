@@ -1,8 +1,8 @@
 <?php
 //session_start();
 //$db = new Database();
-include_once  '../../db/database.php';
-include_once  '../../utils/utility.php';
+include_once  __DIR__. '/../../db/database.php';
+include_once  __DIR__. '/../../utils/utility.php';
 
 // $user = Utility::getUserToken();
 // if($user == null) {

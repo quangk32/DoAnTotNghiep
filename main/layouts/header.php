@@ -2,13 +2,15 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-	include_once('./utils/utility.php');
-	include_once('./db/database.php');
+	include_once(__DIR__. '/../db/config.php');
+	include_once(__DIR__. '/../utils/utility.php');
+	include_once(__DIR__. '/../db/database.php');
+
 	if(!isset($_SESSION["isLogin"]) || empty($_SESSION["isLogin"])){
 		$_SESSION["isLogin"] = 0;
 	}
 	$db = new Database();
-	$sql = "SELECT * from categories";
+	$sql = "SELECT * from categories where deleted = 0";
 	$menuItems = $db->executeResult($sql);
 ?>
 <!DOCTYPE html>
@@ -16,7 +18,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Torano- TThời trang nam</title>
+	<title>Torano- Thời trang nam</title>
 	<link rel="shortcut icon" href="https://t004.gokisoft.com/uploads/2021/07/1-s-1637-ico-web.jpg">
 	<link href="https://kit-pro.fontawesome.com/releases/v5.15.4/css/pro.min.css" rel="stylesheet">
 	<!-- Latest compiled and minified CSS -->
@@ -375,21 +377,21 @@ if (session_status() == PHP_SESSION_NONE) {
 	<div class="wapper">
 		<div id="header">
 			<div id="toggle">
-				<a href="index.php" style="text-decoration:none; color:white; font-weight:bold;">TRANG CHỦ</a>
+				<a href="<?= $baseUrl ?>/index.php" style="text-decoration:none; color:white; font-weight:bold;">TRANG CHỦ</a>
 				<i class="fas fa-bars"></i>
 			</div>
 			<nav>
 				<ul class="nav" id="main-menu" style="width: 100%;align-items:center;justify-content:center;padding:20px 0;">
 						<li class="nav-item">
-							<a href="index.php">
-								<img src="assets/photos/logo.png" style="width:240px; height:60px; margin:0px 50px 10px -200px" />
+							<a href="<?= $baseUrl ?>/index.php">
+								<img src="<?= $baseUrl ?>/assets/photos/logo.png" style="width:240px; height:60px; margin:0px" />
 							</a>
 						</li>
 						<li class="nav-item" style="margin-top: 8px !important;">
-							<a href="bestselling.php" style="text-decoration: none ;padding: 0 15px; line-height:20px";>SẢN PHẨM BÁN CHẠY</a>
+							<a href="<?= $baseUrl ?>/pages/bestselling.php" style="text-decoration: none ;padding: 0 15px; line-height:20px";>SẢN PHẨM BÁN CHẠY</a>
 						</li>
 						<li class="nav-item" style="margin-top: 8px !important;">
-							<a href="bestsales.php" style="text-decoration: none ;padding: 0 15px; line-height:20px";>SALES</a>
+							<a href="<?= $baseUrl ?>/pages/bestsales.php" style="text-decoration: none ;padding: 0 15px; line-height:20px";>SALES</a>
 						</li>
 						<li class="nav-item" style=" margin-top: 8px !important;">
 						<a href="#" style="cursor: pointer;padding: 0 15px;" onclick="toggleMenu(event, this)">ÁO NAM
@@ -398,18 +400,18 @@ if (session_status() == PHP_SESSION_NONE) {
 							
 						<ul class="submenu">
 							<?php						
-								include_once('./utils/utility.php');
-								include_once('./db/database.php');
+								include_once(__DIR__. '/../utils/utility.php');
+								include_once(__DIR__. '/../db/database.php');
 								if(!isset($_SESSION["isLogin"]) || empty($_SESSION["isLogin"])){
 									$_SESSION["isLogin"] = 0;
 								}
 								$db = new Database();
-								$sql = "SELECT * from categories where parent_id = 1";
+								$sql = "SELECT * from categories where parent_id = 1 and deleted = 0";
 								$menuItems = $db->executeResult($sql);
 								foreach ($menuItems as $item){
 									?>
 									<li class="nav-item">
-										<a class="nav-link" href="category.php?id=<?=$item['id']?>"><?=$item['name']?></a>
+										<a class="nav-link" href="<?= $baseUrl ?>/pages/category.php?id=<?=$item['id']?>"><?=$item['name']?></a>
 									</li>
 									<?php
 								}
@@ -424,18 +426,18 @@ if (session_status() == PHP_SESSION_NONE) {
 							
 						<ul class="submenu">
 							<?php						
-								include_once('./utils/utility.php');
-								include_once('./db/database.php');
+								include_once(__DIR__. '/../utils/utility.php');
+								include_once(__DIR__. '/../db/database.php');
 								if(!isset($_SESSION["isLogin"]) || empty($_SESSION["isLogin"])){
 									$_SESSION["isLogin"] = 0;
 								}
 								$db = new Database();
-								$sql = "SELECT * from categories where parent_id = 2";
+								$sql = "SELECT * from categories where parent_id = 2 and deleted = 0";
 								$menuItems = $db->executeResult($sql);
 								foreach ($menuItems as $item){
 									?>
 									<li class="nav-item">
-										<a class="nav-link" href="category.php?id=<?=$item['id']?>"><?=$item['name']?></a>
+										<a class="nav-link" href="<?= $baseUrl ?>/pages/category.php?id=<?=$item['id']?>"><?=$item['name']?></a>
 									</li>
 									<?php
 								}
@@ -443,18 +445,18 @@ if (session_status() == PHP_SESSION_NONE) {
 							?>
 							</ul>
 						</li>
-						<li class="nav-item" style="margin-top: 8px !important;">
-							<a href="index.php" style="text-decoration: none ;padding: 0 10px; line-height:20px";>BỘ SƯU TẬP
+						<!--<li class="nav-item" style="margin-top: 8px !important;">
+							<a href="<?= $baseUrl ?>/pages/collections.php" style="text-decoration: none ;padding: 0 10px; line-height:20px";>BỘ SƯU TẬP
 								<span class="arrow">&#9662;</span>
 							</a>
 							
-						</li>
+						</li>-->
 						<li class="nav-item" style="margin-top: 8px !important;">
-							<a href="contact.php" style="text-decoration: none ;padding: 0 10px; line-height:20px";>PHẢN HỒI</a>
+							<a href="<?= $baseUrl ?>/pages/contact.php" style="text-decoration: none ;padding: 0 10px; line-height:20px";>PHẢN HỒI</a>
 						</li>
 						
 						<div>
-							<form action="tim_kiem.php" method="GET" class="form-inline my-2 my-lg-0 search-form">
+							<form action="<?= $baseUrl ?>/pages/search.php" method="GET" class="form-inline my-2 my-lg-0 search-form">
 								<input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="query">
 								<button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="background-color:blue; text-align:center;">Tìm kiếm</button>
 							</form>
@@ -462,21 +464,21 @@ if (session_status() == PHP_SESSION_NONE) {
 						<li class="nav-item">
 							<?php 
 							if($_SESSION["isLogin"]== 0){
-								echo '<a class="nav-link" href="login.php">Đăng nhập</a>';
+								echo '<a class="nav-link" href="'.$baseUrl. '/pages/login.php">Đăng nhập</a>';
 							}else{
 								?>
-								<img src="assets/photos/Thay-the-hinh-dai-dien-tai-khoan-nguoi-dung-mac.png" alt="">
+								<img src="<?= $baseUrl ?>/assets/photos/Thay-the-hinh-dai-dien-tai-khoan-nguoi-dung-mac.png" alt="">
 								<div class="name" style="cursor: pointer;"><b>TÀI KHOẢN</b></div>
 								<ul class="submenu" >
 									<li >
-										<a href="inforuser.php" class="btn btn-infor" >Thông tin tài khoản</a>
+										<a href="<?= $baseUrl ?>/pages/inforuser.php" class="btn btn-infor" >Thông tin tài khoản</a>
 									</li>
 									<li >
-										<a href="orderHistory.php" class="btn btn-infor" >Lịch sử đơn hàng</a>
+										<a href="<?= $baseUrl ?>/pages/orderHistory.php" class="btn btn-infor" >Lịch sử đơn hàng</a>
 									</li>
 									
 									<li >
-										<a href="logout.php" class="btn btn-out" >Đăng xuất</a>
+										<a href="<?= $baseUrl ?>/pages/logout.php" class="btn btn-out" >Đăng xuất</a>
 									</li>
 								</ul>
 								<?php

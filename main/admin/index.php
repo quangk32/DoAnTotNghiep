@@ -1,8 +1,7 @@
 <?php
 $title = "Trang Quản trị";
-$baseUrl = '';
+include_once('./layouts/header.php');
 
-include_once './layouts/header.php';
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -21,6 +20,6 @@ include_once './layouts/header.php';
 </aside>
 </div>
 <?php
-include_once './layouts/footer.php';
+include_once('./layouts/footer.php');
 
 ?>

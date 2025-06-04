@@ -1,7 +1,6 @@
 <?php
 $title = "Trang Quản Lý Phản Hồi";
-$baseUrl = '../';
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -24,7 +23,7 @@ include_once '../layouts/header.php';
 
                         </div>
                     <table class="table table-hover mt-5 table-bordered">
-                        <thead>
+                        <thead class="table-active">
                             <tr>
                                 <th class = "fbtitle" scope="col">STT</th>
                                 <th class = "fbtitle" scope="col">Họ Tên</th>                         
@@ -42,9 +41,9 @@ include_once '../layouts/header.php';
                             <?php
                             $db = new Database();
                             if (isset($_GET['search']) && $_GET['search'] != '') {
-                                $sql = 'select * from feedback where lastname like "%'.$_GET['search'].'%" or note like "%'.$_GET['search'].'%"';
+                                $sql = 'SELECT * FROM feedback WHERE deleted = 0 AND (lastname like "%'.$_GET['search'].'%" or note like "%'.$_GET['search'].'%")';
                             } else {
-                                $sql = "SELECT * FROM feedback order by status asc";
+                                $sql = "SELECT * FROM feedback WHERE deleted = 0 order by status asc";
                             }
                             
                             $data = $db->executeResult($sql);
@@ -111,5 +110,5 @@ include_once '../layouts/header.php';
     }
 </script>
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>

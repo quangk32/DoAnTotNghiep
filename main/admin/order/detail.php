@@ -1,10 +1,23 @@
 <?php
 $title = "Chi tiết đơn hàng";
-$baseUrl = '../';
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $db = new Database();
 $orderId = Utility::getGet('id');
-$sql = "SELECT order_details.*,products.name,products.image FROM order_details,products WHERE order_details.product_id=products.id AND order_details.order_id=$orderId";
+$sql = "
+SELECT 
+    od.*, 
+    pv.size, 
+    pv.color, 
+    p.name, 
+    p.image 
+FROM 
+    order_details od
+INNER JOIN product_variants pv ON od.product_variant_id = pv.id
+INNER JOIN products p ON pv.product_id = p.id
+WHERE 
+    od.order_id = $orderId
+";
+
 $data = $db->executeResult($sql);
 $sql = "SELECT * FROM orders WHERE id=$orderId";
 $orderItem = $db->executeResult($sql, true);
@@ -19,7 +32,7 @@ $orderItem = $db->executeResult($sql, true);
                 
                 <div class="col-md-12">
                     <a href="../order/index.php"><button class="btn btn-primary">Quay lại</button></a>
-                    <button class="btn btn-success" onclick="printInvoice()">In hóa đơn</button>
+                    <a href="../invoice/export_invoice.php?id=<?= $orderId ?>" class="btn btn-success" target="_blank">In hóa đơn</a>
                 </div>
                 <div class="col-md-12">
                     <h1 class="m-0 mb-3" style="padding-top: 16px; text-align: center;"><b>Chi tiết đơn hàng</b></h1>
@@ -51,7 +64,7 @@ $orderItem = $db->executeResult($sql, true);
                                     <td><?= htmlspecialchars($item['color']) ?></td>
                                     <td><?= number_format($item['price']) . ' VNĐ' ?></td>
                                     <td><?= intval($item['num']) ?></td>
-                                    <td><?= number_format($item['total_money']) . ' VNĐ' ?></td>
+                                    <td><?= number_format($item['price'] * $item['num']) . ' VNĐ' ?></td>
                                 </tr>
 
                             <?php endforeach ?>
@@ -113,5 +126,5 @@ $orderItem = $db->executeResult($sql, true);
     }
 </script>
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>

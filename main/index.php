@@ -1,5 +1,4 @@
 <?php
-$baseUrl = '';
 include_once('./layouts/header.php');
 include_once('./db/database.php');
 $db = new Database();
@@ -19,7 +18,7 @@ $currentIndex = ($page - 1) * $page_number_max;
 
 // Truy vấn dữ liệu sản phẩm với phân trang
 $sql = "SELECT products.*, categories.name as category_name FROM products LEFT JOIN categories 
-  ON products.category_id = categories.id WHERE deleted = 0 AND active = 1 
+  ON products.category_id = categories.id WHERE products.deleted = 0 AND products.active = 1 AND categories.deleted = 0 
   ORDER BY id DESC LIMIT $currentIndex, $page_number_max";
 $lastestItems = $db->executeResult($sql);
 ?>
@@ -87,7 +86,7 @@ $lastestItems = $db->executeResult($sql);
 </style>
 
 <!-- banner -->
-<?php require_once('./slider.php') ?>
+<?php require_once('./pages/slider.php') ?>
 <!-- banner stop -->
 <div class="container">
   <h1 style="text-align: center; margin-top: 100px; margin-bottom: 100px;">CÁC SẢN PHẨM MỚI</h1>
@@ -95,17 +94,17 @@ $lastestItems = $db->executeResult($sql);
     <?php
     foreach ($lastestItems as $item) {
       echo '<div class="col-md-3 col-6 product-item">
-              <a href="detail.php?id=' . $item['id'] . '"><a href="detail.php?id=' . $item['id'] . '">
+              <a href="./pages/detail.php?id=' . $item['id'] . '"><a href="./pages/detail.php?id=' . $item['id'] . '">
                 <img src="' . $item['image'] . '" style="width: 100%; height: 220px; object-fit: cover; border-radius: 6px;">
               </a>
 
               <p style="font-weight: bold;">' . $item['category_name'] . '</p>
-              <a href="detail.php?id=' . $item['id'] . '"><p style="font-weight: bold;min-height: 48px; overflow: hidden; margin-bottom: 8px;">' . $item['name'] . '</p></a>
+              <a href="./pages/detail.php?id=' . $item['id'] . '"><p style="font-weight: bold;min-height: 48px; overflow: hidden; margin-bottom: 8px;">' . $item['name'] . '</p></a>
               <div class="price-container">
-                <p class="discount-price" style="color: red; font-weight: bold;">' . number_format($item['discount']) . ' VND </p> 
+                <p class="discount-price" style="color: red; font-weight: bold;">' . number_format($item['price'] * (100-$item['discount']) / 100) . ' VND </p> 
                 <p class="original-price" style="text-decoration: line-through; color: grey;">' . number_format($item['price']) . ' VND </p>
               </div>
-              <a href="detail.php?id=' . $item['id'] . '">
+              <a href="./pages/detail.php?id=' . $item['id'] . '">
                 <button style="
                   width: 100%;
                   margin-bottom: 6px;
@@ -147,7 +146,7 @@ $lastestItems = $db->executeResult($sql);
 <?php
 $count = 0;
 foreach ($menuItems as $item) {
-  $sql = "SELECT products.*, categories.name as category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE products.category_id = " . $item['id'] . " AND deleted = 0 AND active = 1";
+  $sql = "SELECT products.*, categories.name as category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE products.category_id = " . $item['id'] . " AND products.deleted = 0 AND active = 1";
   $items = $db->executeResult($sql);
   if ($items == null || count($items) < 4) continue;
 

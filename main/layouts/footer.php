@@ -1,3 +1,27 @@
+<?php
+include_once(__DIR__. '/../db/config.php');
+require_once(__DIR__. '/../db/database.php');
+
+$count = 0;
+if (isset($_SESSION['user']['id'])) {
+    // Nếu đã đăng nhập -> lấy từ database
+    $user_id = $_SESSION['user']['id'];
+    $db = new Database();
+    $sql = "SELECT SUM(quantity) AS total FROM cart_items ci
+            INNER JOIN carts c ON ci.cart_id = c.id
+            WHERE c.user_id = $user_id AND c.status = 0 AND ci.deleted = 0";
+    $result = $db->executeResult($sql, true);
+    $count = $result['total'] ?? 0;
+} else {
+    // Nếu chưa đăng nhập -> lấy từ session
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+    foreach ($_SESSION['cart'] as $item) {
+        $count += $item['num'];
+    }
+}
+?>
 <style>
     footer .back-to-top {
         position: fixed;
@@ -114,23 +138,10 @@
 </footer>
 
 
-
-<?php
-if (!isset($_SESSION['cart'])) {
-	$_SESSION['cart'] = [];
-}
-$count = 0;
-// var_dump($_SESSION['cart']);
-foreach ($_SESSION['cart'] as $item) {
-	$count += $item['num'];
-}
-?>
-
-
 <!-- Cart start -->
 <span class="cart_icon">
 	<span class="cart_count" id="cart_count"><?= $count ?></span>
-	<a href="cart.php"><img src="https://gokisoft.com/img/cart.png"></a>
+	<a href="<?= $baseUrl ?>/pages/cart.php"><img src="https://gokisoft.com/img/cart.png"></a>
 </span>
 <!-- Cart stop -->
 <!-- Jquery-->
@@ -156,7 +167,7 @@ foreach ($_SESSION['cart'] as $item) {
 		})
 	}
 </script>
-<script src="./main.js"></script>
+<script src="main.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,6 @@
 <?php
 	$title = 'Thêm/Sửa Tài Khoản Người Dùng';
-	$baseUrl = '../';
-	include_once '../layouts/header.php';
+	include_once __DIR__. '/../layouts/header.php';
     $id = $msgfail=$msgsuccess= $name='';
     include_once './form_save.php';
 	$db = new Database();
@@ -22,7 +21,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
 		<div class="container-fluid">
-			<a href="index.php"><button class="btn btn-success">Quay lại</button></a><br>
+			<a href="<?= $baseUrl ?>/admin/roles/index.php"><button class="btn btn-success">Quay lại</button></a><br>
 			<div class="row mb-2">
                 <div class="col-md-12">
                     <br><h1 class="m-0 mb-3">Thêm/Sửa Quyền</h1>
@@ -57,5 +56,5 @@
 </aside>
 </div>
 <?php
-	require_once('../layouts/footer.php');
+	require_once(__DIR__. '/../layouts/footer.php');
 ?>

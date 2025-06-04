@@ -1,11 +1,10 @@
 <?php
 // Phần đầu file vẫn giữ nguyên
 $title = 'Thêm/Sửa Sản Phẩm';
-$baseUrl = '../';
-require_once('../layouts/header.php');
+require_once(__DIR__. '/../layouts/header.php');
 $db = new Database();
 $id = $thumbnail = $title = $price = $discount =  $quantity = $active =  $category_id = $description = '';
-require_once('form_save.php');
+require_once(__DIR__. '/form_save.php');
 
 $id = Utility::getGet('id');
 if ($id != '' && $id > 0) {
@@ -33,7 +32,7 @@ $categoryItems = $db->executeResult($sql);
 // Lấy variants hiện tại của sản phẩm (size, color, quantity)
 
 $productId = $id; // từ $_GET hoặc $_POST
-$sql = "SELECT * FROM product_variants WHERE product_id = $productId";
+$sql = "SELECT * FROM product_variants WHERE product_id = $productId AND deleted = 0";
 $variantItems = $db->executeResult($sql);
 
 ?>
@@ -133,6 +132,7 @@ $variantItems = $db->executeResult($sql);
                           <th>Màu</th>
                           <th>Kích cỡ</th>
                           <th>Số lượng</th>
+                          <th>Giá</th>
                           <th>Thao tác</th>
                         </tr>
                       </thead>
@@ -142,9 +142,12 @@ $variantItems = $db->executeResult($sql);
                             <td><input type="text" class="form-control color" value="<?= htmlspecialchars($variant['color']) ?>"></td>
                             <td><input type="text" class="form-control size" value="<?= htmlspecialchars($variant['size']) ?>"></td>
                             <td><input type="number" class="form-control quantity" value="<?= (int)$variant['quantity'] ?>" min="0"></td>
+                            <td><input type="number" class="form-control price" value="<?= (float)($variant['price'] ?? 0) ?>" min="0"></td> <!-- New -->
                             <td>
-                              <button type="button" class="btn btn-success btn-sm" onclick="saveVariant(this, <?= $id ?>, <?= $variant['id'] ?>)">Lưu</button>
-                              <button type="button" class="btn btn-danger btn-sm" onclick="removeVariantRow(this)">Xóa</button>
+                              <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-success btn-sm" onclick="saveVariant(this, <?= $id ?>, <?= $variant['id'] ?>)">Lưu</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteVariant(this, <?= $variant['id'] ?>)">Xóa</button>
+                            </div>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -162,11 +165,13 @@ $variantItems = $db->executeResult($sql);
                           <td><input type="text" class="form-control color" placeholder="Màu" required></td>
                           <td><input type="text" class="form-control size" placeholder="Size" required></td>
                           <td><input type="number" class="form-control quantity" value="1" min="0" required></td>
+                          <td><input type="number" class="form-control price" value="0" min="0" required></td>
                           <td>
                             <button type="button" class="btn btn-success btn-sm" onclick="saveVariant(this, <?= $id ?>, 0)">Lưu</button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeVariantRow(this)">Xóa</button>
                           </td>
                         `;
+
 
                         tbody.appendChild(tr);
                       }
@@ -181,7 +186,7 @@ $variantItems = $db->executeResult($sql);
                         const color = row.querySelector('.color').value.trim();
                         const size = row.querySelector('.size').value.trim();
                         const quantity = parseInt(row.querySelector('.quantity').value);
-
+                        const price = parseFloat(row.querySelector('.price').value);
                         if (!color || !size || quantity < 0) {
                           alert('Vui lòng nhập đầy đủ thông tin hợp lệ.');
                           return;
@@ -195,7 +200,8 @@ $variantItems = $db->executeResult($sql);
                             variant_id: variantId,
                             color: color,
                             size: size,
-                            quantity: quantity
+                            quantity: quantity,
+                            price: price
                           })
                         })
                         .then(res => res.json())
@@ -287,25 +293,26 @@ function updateThumbnail() {
   }
 }
 
-function addVariantRow() {
-  var tbody = document.querySelector('#variants_table tbody');
-  var newRow = document.createElement('tr');
-  newRow.innerHTML = `
-    <td><input type="text" name="variants[size][]" class="form-control" required></td>
-    <td><input type="text" name="variants[color][]" class="form-control" required></td>
-    <td><input type="number" name="variants[quantity][]" class="form-control" min="0" required></td>
-    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeVariantRow(this)">Xóa</button></td>
-  `;
-  tbody.appendChild(newRow);
+function deleteVariant(button, variantId) {
+  if (!confirm('Xóa biến thể này?')) return;
+  fetch('form_api.php?action=delete_variant', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ variant_id: variantId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      button.closest('tr').remove();
+    } else {
+      alert(data.message || 'Xóa thất bại');
+    }
+  });
 }
 
-function removeVariantRow(btn) {
-  var row = btn.closest('tr');
-  row.parentNode.removeChild(row);
-}
 </script>
 <?php
-require_once('../layouts/footer.php');
+require_once(__DIR__. '/../layouts/footer.php');
 ?>
 <!-- Thêm CKEditor -->
 

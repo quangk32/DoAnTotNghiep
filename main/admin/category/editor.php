@@ -1,10 +1,9 @@
 <?php
 $title = 'Trang Quản lý Danh mục';
-$baseUrl = '../';
 $formNameEditor = "Thêm/Sửa Danh mục";
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $id = $msgfail = $msgsuccess = $name = '';
-include_once './form_save.php';
+include_once 'form_save.php';
 $db = new Database();
 $id = Utility::getGet('id');
 if ($id != '' && $id > 0) {
@@ -58,5 +57,5 @@ if ($id != '' && $id > 0) {
 		</aside>
 	</div>
 	<?php
-	require_once('../layouts/footer.php');
+	require_once(__DIR__. '/../layouts/footer.php');
 	?>

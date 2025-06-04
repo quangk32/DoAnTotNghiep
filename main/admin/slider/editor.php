@@ -1,7 +1,6 @@
 <?php
 $title = 'Thêm/Sửa Slider';
-$baseUrl = '../';
-require_once('../layouts/header.php');
+require_once(__DIR__. '/../layouts/header.php');
 $db = new Database();
 $id = $thumbnail = $title  = $content  = $active  = '';
 require_once('form_save.php');
@@ -96,7 +95,7 @@ if ($id != '' && $id > 0) {
   }
 </script>
 <?php
-require_once('../layouts/footer.php');
+require_once(__DIR__. '/../layouts/footer.php');
 ?>
 <script>
   CKEDITOR.replace('ckeditor');

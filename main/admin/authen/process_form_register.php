@@ -1,6 +1,6 @@
 <?php
-include_once '../../db/database.php';
-include_once "../../utils/utility.php";
+include_once __DIR__. '/../../db/database.php';
+include_once __DIR__. '/../../utils/utility.php';
 $db = new Database();
 $fullname = $email = $msg = '';
 if (!empty($_POST)) {
@@ -13,7 +13,7 @@ if (!empty($_POST)) {
     if (empty($fullname) || empty($email) || empty($address) || empty($phone) || empty($password) || strlen($password) < 3) {
         $msg = "Vui lòng điền đầy đủ thông tin";
     } else {
-        $sql1 = "SELECT * FROM users WHERE email='$email'";
+        $sql1 = "SELECT * FROM admin WHERE email='$email'";
         $userExist = $db->executeResult($sql1, true);
         if ($userExist != null) {
             $msg = "Email đã tồn tại, vui lòng nhập email khác";
@@ -23,10 +23,10 @@ if (!empty($_POST)) {
             $sql = "INSERT INTO users (fullname,email,phone_number,address,password,role_id,created_at,updated_at) VALUES ('$fullname','$email','$phone','$address','$password',1,'$created_at','$updated_at')";
             $db->execute($sql);
             $msg1 = "Đăng ký tài khoản thành công!!!";
-            // echo '
-			// 	<script>
-			// 		window.location.href = "login.php";
-			// 	</script>';
+            echo '
+			<script>
+					window.location.href = "login.php";
+				</script>';
         }
     }
 }

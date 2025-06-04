@@ -19,7 +19,7 @@
  */
 
 // Load the autoloader, move one folder back from examples
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__. '/../vendor/autoload.php';
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false, true);
@@ -53,8 +53,8 @@ $pdf->setAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // set some language-dependent strings (optional)
-if (@file_exists(__DIR__ . '/lang/eng.php')) {
-    require_once __DIR__ . '/lang/eng.php';
+if (@file_exists(__DIR__. '/lang/eng.php')) {
+    require_once __DIR__. '/lang/eng.php';
 
     $pdf->setLanguageArray($l);
 }

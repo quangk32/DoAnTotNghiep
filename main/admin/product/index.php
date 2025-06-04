@@ -1,8 +1,6 @@
 <?php
-
 $title = "Trang Quản lý người dùng";
-$baseUrl = '../';
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $db = new Database();
 
 $page = 1;
@@ -48,7 +46,7 @@ $numPages = ceil($total / $page_number_max);
                     </form>
 
                     <table class="table table-hover mt-3 table-bordered">
-                        <thead>
+                        <thead class="table-active">
                             <tr>
                                 <th scope="col">STT</th>
                                 <th scope="col">Hình ảnh</th>
@@ -78,7 +76,7 @@ $numPages = ceil($total / $page_number_max);
                                     <td> <?= $item['active'] == 0 ? "<span style='color:red'>Không kích hoạt</span>" : "<span style='color:green'>Kích hoạt</span>"; ?> </td>
 
                                     <td>
-                                        <a href="./editor.php?id=<?= $item['id'] ?>" class="btn btn-warning">Sửa</a>
+                                        <a href="editor.php?id=<?= $item['id'] ?>" class="btn btn-warning">Sửa</a>
 
                                         <button onclick="deleteUser(<?= $item['id'] ?>)" class="btn btn-danger">Xoá</button>
 
@@ -149,6 +147,5 @@ $numPages = ceil($total / $page_number_max);
 </script>
 
 <?php
-
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>

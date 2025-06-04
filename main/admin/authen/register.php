@@ -1,12 +1,11 @@
 <?php
 session_start();
-include_once '../../utils/utility.php';
-// include_once '../../database/dbhelper.php';
-include_once "../../db/database.php";
-include_once "./process_form_register.php";
+include_once __DIR__. '/../../utils/utility.php';
+include_once __DIR__. '/../../db/database.php';
+include_once 'process_form_register.php';
 $user = Utility::getUserToken();
 if ($user != null) {
-    header("Location: ../index.php");
+    header("Location: $baseUrl/admin/index.php");
     die();
 }
 ?>

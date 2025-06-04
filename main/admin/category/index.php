@@ -1,10 +1,9 @@
 <?php
 $title = "Trang Quản lý Danh mục";
-$baseUrl = '../';
 $formNameIndex = "Danh sách danh mục";
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $db = new Database();
-$sql = "SELECT * FROM categories";
+$sql = "SELECT * FROM categories WHERE deleted = 0";
 $data = $db->executeResult($sql);
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -32,7 +31,7 @@ $data = $db->executeResult($sql);
                                     <th scope="row"><?= ++$index ?></th>
                                     <td><?= $item['name'] ?></td>
                                     <td>
-                                        <a href="./editor.php?id=<?= $item['id'] ?>" class="btn btn-warning">Sửa</a>
+                                        <a href="editor.php?id=<?= $item['id'] ?>" class="btn btn-warning">Sửa</a>
                                         <button onclick="deleteUser(<?= $item['id'] ?>)" class="btn btn-danger">Xoá</button>
                                     </td>
                                 </tr>
@@ -66,5 +65,5 @@ $data = $db->executeResult($sql);
     }
 </script>
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>

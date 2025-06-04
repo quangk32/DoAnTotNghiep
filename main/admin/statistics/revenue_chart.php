@@ -1,7 +1,6 @@
 <?php
 $title = "Thống kê Doanh thu";
-$baseUrl = '../';
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 
 $sqlWeekly = "
 SELECT 
@@ -52,7 +51,7 @@ GROUP BY year
 ORDER BY year DESC
 ";
 
-
+$db = new Database();
 $dataDaily = $db->executeResult($sqlDaily);
 $dataYearly = $db->executeResult($sqlYearly);
 $dataWeekly = $db->executeResult($sqlWeekly);
@@ -110,7 +109,7 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
             <!-- Biểu đồ doanh thu theo khoảng thời gian -->
             <div id="date_range_chart" style="width: 100%; height: 500px;"></div>
             <!-- Biểu đồ doanh thu theo ngày -->
-            <div id="daily_chart" style="width: 100%; height: 500px;"></div>
+            <div id="daily_chart" style="display:none; width: 100%; height: 500px;"></div>
 
             <!-- Biểu đồ doanh thu theo tuần -->
             <div id="weekly_chart" style="width: 100%; height: 500px;"></div>
@@ -252,5 +251,5 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
 </script>
 
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>

@@ -1,8 +1,7 @@
 <?php
 $title = "Trang Quản lý Thống kê";
-$baseUrl = '../';
 $formNameIndex = "Danh sách thống kê";
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $db = new Database();
 
 // Truy vấn thống kê sản phẩm
@@ -44,7 +43,7 @@ $data = $db->executeResult($sql);
     <a href="index.php" class="btn btn-primary">Quay lại</a>
 </div>
 
-<?php include_once '../layouts/footer.php'; ?>
+<?php include_once __DIR__. '/../layouts/footer.php'; ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">

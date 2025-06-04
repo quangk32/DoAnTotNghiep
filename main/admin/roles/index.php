@@ -1,7 +1,6 @@
 <?php
 $title = "Trang Quản lý quyền";
-$baseUrl = '../';
-include_once '../layouts/header.php';
+include_once (__DIR__. '/../layouts/header.php');
 $db = new Database();
 $sql = "SELECT * FROM roles";
 $data = $db->executeResult($sql);
@@ -65,5 +64,5 @@ $data = $db->executeResult($sql);
     }
 </script>
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>

@@ -49,8 +49,8 @@ class Utility
         $db = new Database();
         $item = $db->executeResult($sql, true);
         if ($item != null) {
-            $userId = $item['user_id'];
-            $sql = "SELECT * FROM users WHERE id='$userId' AND deleted=0";
+            $userId = $item['admin_id'];
+            $sql = "SELECT * FROM admin WHERE id='$userId' AND deleted=0";
             $item = $db->executeResult($sql, true);
             if ($item != null) {
                 $_SESSION['user'] = $item;

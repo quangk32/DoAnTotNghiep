@@ -1,21 +1,23 @@
 <?php
 $title = "Thống kê Sản phẩm Bán chạy";
-$baseUrl = '../';
-include_once '../layouts/header.php';
-
+include_once __DIR__. '/../layouts/header.php';
+$db = new Database();
 $sql = "
 SELECT 
-    products.id, 
-    products.name, 
-    SUM(order_details.num) AS total_sold, 
-    SUM(order_details.total_money) AS total_revenue 
+    p.id, 
+    p.name, 
+    p.image,
+    SUM(od.num) AS total_sold,
+    COUNT(DISTINCT o.id) AS total_orders,
+    SUM(o.total_money) AS total_revenue
 FROM 
-    products 
-INNER JOIN order_details ON products.id = order_details.product_id 
-INNER JOIN orders ON orders.id = order_details.order_id 
-WHERE orders.status = 3
-GROUP BY products.id 
-ORDER BY total_sold DESC 
+    products p
+INNER JOIN product_variants pv ON pv.product_id = p.id
+INNER JOIN order_details od ON od.product_variant_id = pv.id
+INNER JOIN orders o ON o.id = od.order_id
+WHERE o.status = 3
+GROUP BY p.id, p.name, p.image
+ORDER BY total_sold DESC
 LIMIT 10
 ";
 $data = $db->executeResult($sql);
@@ -56,4 +58,4 @@ $data = $db->executeResult($sql);
         chart.draw(data, options);
     }
 </script>
-<?php include_once '../layouts/footer.php'; ?>
+<?php include_once __DIR__. '/../layouts/footer.php'; ?>

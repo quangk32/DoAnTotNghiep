@@ -1,8 +1,7 @@
 <?php
 $title = "Trang Quản lý Thống kê";
-$baseUrl = '../';
 $formNameIndex = "Biểu đồ";
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $db = new Database();
 $sql = "select categories.id,categories.`name`,
 COUNT(*) as 'soluong',
@@ -36,7 +35,7 @@ $data = $db->executeResult($sql);
 
 
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 ?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">

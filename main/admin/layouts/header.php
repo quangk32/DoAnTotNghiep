@@ -1,12 +1,8 @@
 <?php
-include_once  $baseUrl . '../db/database.php';
-include_once $baseUrl . '../utils/utility.php';
-$db = new Database();
-$user = Utility::getUserToken();
-if ($user == null) {
-    header("Location:./authen/login.php");
-    die();
-}
+	include_once(__DIR__. '/../../db/config.php');
+	include_once(__DIR__. '/../../utils/utility.php');
+	include_once(__DIR__. '/../../db/database.php');
+    $user = Utility::getUserToken(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +11,7 @@ if ($user == null) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $title ?></title>
 
-    <link rel="icon" type="image/png" href="./dist/img/logo.png">
+    <link rel="icon" type="image/png" href="<?= $baseUrl ?>/admin/dist/img/logo.png">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -24,30 +20,28 @@ if ($user == null) {
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/jqvmap/jqvmap.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/jqvmap/jqvmap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/dist/css/adminlte.min.css">
     <!-- My css -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>dist/css/styles.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/dist/css/styles.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/summernote/summernote-bs4.min.css">
-    <link rel="stylesheet" href="<?= $baseUrl ?>plugins/ckeditor/">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/admin/plugins/ckeditor/">
 
 
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -56,7 +50,7 @@ if ($user == null) {
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="<?= $baseUrl ?>./index.php" class="nav-link">Trang chủ</a>
+                    <a href="<?= $baseUrl ?>/admin/index.php" class="nav-link">Trang chủ</a>
                 </li>
                 <!-- <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Liên hệ</a>
@@ -71,8 +65,8 @@ if ($user == null) {
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="<?= $baseUrl ?>./index.php" class="brand-link">
-                <img src="<?= $baseUrl ?>dist/img/logo.jfif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <a href="<?= $baseUrl ?>/admin/index.php" class="brand-link">
+                <img src="<?= $baseUrl ?>/admin/dist/img/logo.jfif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light font-weight-bold">Torano</span>
             </a>
 
@@ -81,12 +75,11 @@ if ($user == null) {
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <!-- <img src="<?= $baseUrl ?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                        <img src="../<?=$user['avatar']?>" class="img-circle elevation-2">
+                        <img src="<?= $baseUrl ?>/<?= $user['avatar'] ?>" class="img-circle elevation-2">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?= $user['fullname'] ?></a>
-                        <a href="<?= $baseUrl ?>./authen/logout.php" onclick="return confirm('Bạn có muốn đăng xuất không?')" class="d-block btn-logout">Đăng xuất</a>
+                        <a href="<?= $baseUrl ?>/admin/authen/logout.php" onclick="return confirm('Bạn có muốn đăng xuất không?')" class="d-block btn-logout">Đăng xuất</a>
                     </div>
                 </div>
 
@@ -117,13 +110,13 @@ if ($user == null) {
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./category/editor.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/category/editor.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Thêm danh mục</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./category/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/category/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh sách danh mục</p>
                                     </a>
@@ -140,13 +133,13 @@ if ($user == null) {
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./product/editor.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/product/editor.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Thêm sản phẩm</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./product/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/product/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh sách sản phẩm</p>
                                     </a>
@@ -164,13 +157,13 @@ if ($user == null) {
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./slider/editor.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/slider/editor.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Thêm Slider</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./slider/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/slider/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh sách Slider</p>
                                     </a>
@@ -187,19 +180,19 @@ if ($user == null) {
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./user/editor.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/admin/editor.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Thêm tài khoản</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./user/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/admin/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>DSTK quản trị</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./user_khach/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/users/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>DSTK khách hàng</p>
                                     </a>
@@ -216,13 +209,13 @@ if ($user == null) {
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./roles/editor.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/roles/editor.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Thêm quyền</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./roles/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/roles/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh sách quyền</p>
                                     </a>
@@ -230,10 +223,16 @@ if ($user == null) {
                             </ul>
                         </li>
 
-
+                        <li class="nav-item ">
+                            <a href="<?= $baseUrl ?>/admin/order/index.php" class="nav-link " class="nav-link ">
+                                <i class="nav-icon fas fa-shopping-cart"></i>
+                                <p> Quản lý đơn đặt hàng</p>
+                            </a>
+                        </li>
+                        
                         <li class="nav-item ">
                             <a href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-comments"></i>
+                                <i class="nav-icon fas fa-mail-bulk"></i>
                                 <p>
                                     Quản lý phản hồi
                                     <i class="right fas fa-angle-left"></i>
@@ -241,21 +240,52 @@ if ($user == null) {
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= $baseUrl ?>./feedback/index.php" class="nav-link ">
+                                    <a href="<?= $baseUrl ?>/admin/feedback/index.php" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p> Danh sách phản hồi</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item ">
-                            <a href="<?= $baseUrl ?>./order/index.php" class="nav-link " class="nav-link ">
-                                <i class="nav-icon fas fa-shopping-cart"></i>
-                                <p> Quản lý đơn đặt hàng</p>
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-comments"></i>
+                                <p>
+                                    Quản lý bình luận
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= $baseUrl ?>/admin/comments/index.php" class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Danh sách bình luận</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                         <li class="nav-item ">
-                            <a href="<?= $baseUrl ?>./statistics/index.php" class="nav-link ">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-star"></i>
+                                <p>
+                                    Quản lý đánh giá 
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= $baseUrl ?>/admin/reviews/index.php" class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Danh sách đánh giá</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a href="<?= $baseUrl ?>/admin/statistics/index.php" class="nav-link ">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>
                                     Quản Lý Thống kê

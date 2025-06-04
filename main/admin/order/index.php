@@ -1,19 +1,19 @@
 <?php
 $title = "Trang Quản lý đơn hàng";
-$baseUrl = '../';
-include_once '../layouts/header.php';
+include_once __DIR__. '/../layouts/header.php';
 $db = new Database();
 
 // Lấy danh sách đơn hàng
 $sql = "SELECT id, fullname, email, phone_number, address, order_date, status, total_money 
-        FROM orders 
+        FROM orders WHERE deleted = 0
         ORDER BY order_date DESC";
 $data = $db->executeResult($sql);
 
 // Đếm số lượng đơn chờ xử lý
-$pendingCount = 0;
+$pendingCount = $approvedCount =0;
 foreach ($data as $item) {
   if ($item['status'] == 0) $pendingCount++;
+  if ($item['status'] == 1) $approvedCount++;
 }
 ?>
 <style>
@@ -44,6 +44,7 @@ foreach ($data as $item) {
       <li class="nav-item">
         <a class="nav-link text-dark fw-semibold" data-toggle="tab" href="#approved">
           <i class="fa fa-check mr-1"></i> Đã duyệt
+          <?php if ($approvedCount > 0) echo '<span class="badge badge-danger ml-1">' . $approvedCount . '</span>'; ?>
         </a>
       </li>
       <li class="nav-item">
@@ -92,7 +93,7 @@ function deleteUser(id) {
 </script>
 
 <?php
-include_once '../layouts/footer.php';
+include_once __DIR__. '/../layouts/footer.php';
 
 function renderOrderTabContent($orders) {
   $statuses = [0 => 'pending', 1 => 'approved', 3 => 'delivered', 2 => 'canceled'];
